@@ -12,7 +12,7 @@ int main(){
     cin >> userSpeed;
 
     cout << "Enter the road type:" << endl;
-    cin >> userSpeed;
+    cin >> roadType;
 
     if (userSpeed < 20){
         //speed calculation under 20 mph
