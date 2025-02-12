@@ -1,16 +1,20 @@
-#include <iostream>
+#include<iostream>
+#include<cassert> // original version of this program doesn't include the cassert library, which breaks functionality
 
 using namespace std;
 
 double findMean(int a, int b, int c)
 {
-    int mean = a+b+c / 3; //missing semicolon
+    double mean = (a+b+c)/3.0; //missing semicolon, why is this a integer make it a double
     return mean;
 }
 
 int main()
 {
     double average = findMean(2,5,2); //using function avg instead of findMean - avg is undefined
-    assert(average == 3);
+    
+    cout << average << endl; //tell me what the average is real quick
+    
+    assert(average == 3); //this is just gonna kill the program if it doesn't return 3
     return 0;
 }

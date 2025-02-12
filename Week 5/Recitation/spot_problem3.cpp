@@ -14,6 +14,8 @@ bool idLengthCheck(int ID)
 int main()
 {
     assert(idLengthCheck(12345678));
-    assert(idLengthCheck("123456789") == False);
+
+    assert(idLengthCheck(123456789) == false); //capital "F" False is a variable, not a boolean operator. Also, function needs input as int and not string.
+    //also, do we really need both of these asserts?
     return 0;
 }
