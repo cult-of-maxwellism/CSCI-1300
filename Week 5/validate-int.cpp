@@ -1,20 +1,37 @@
-/*Design a function validateInt that accepts a string input and determines if it represents a valid integer by checking if
-each character in the string is a valid value. Your program should ask the user to input an integer, store it as a string,
-and then invoke the validateInt function to check its validity. The program should then print whether the string is a valid integer
-or not. (Negative integers are also valid integers).
+//done!
+#include <cctype>
+#include<iostream>
 
-Function: 	validateInt(string)
-bool validateInt(string input)
-Purpose: 	Iterate through a string and verify if it is a valid integer or not. The function should not print anything.
-Parameters: 	string input - The string to be verified
-Return value: 	It returns true if the string is a valid integer. Otherwise, it returns false.
-Error handling && Boundary conditions: 	If length of input = 0, false is returned
-Example:
+using namespace std;
 
-        
-// Assume the proper libraries are included.
+bool validateInt (string number) {
+    int length = 0;
+    int i = 1;
+    bool error = false;
 
-// Assume the proper implementation of validateInt() is included.
+    for (length=0; number[length]; length++);
+
+    if (length <= 0) {
+        error = true;
+    } else if (length > 1) {
+        for (i = 1; i < length; i++) {
+            if (isdigit(number[i])==false) {
+                error = true;
+            }
+        }
+        if (length == i && error != true) {
+            error = false;
+        }
+    } else if (length == 1) {
+        if (isdigit(number[0])) {
+            error = false;
+        } else {
+            error = true;
+        }
+    }
+
+    return (!error);
+}
 
 int main()
 {
@@ -31,20 +48,3 @@ int main()
     }
     return 0;
 }
-
-example of running the above code
-
-Enter the integer :
-
-1234
-
-The entered string is a valid integer!!
-
-Develop and validate your solution in VS Code. Once you are happy with your solution, go to coderunner on Canvas and paste just the validateInt() function into the answer box!
-
-Enter the integer :
-
--12
-
-The entered string is a valid integer!!
-*/

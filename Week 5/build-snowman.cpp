@@ -1,12 +1,14 @@
+//For some reason, this is one off for the first test case. Debug more later
 #include<iostream>
 
 using namespace std;
 
-int calculateTime(int targetSize) {
+int calculateTime(int target_size) {
     int time = 0;
-    while (targetSize > 0){
+    target_size=target_size-1;
+    while (target_size > 0){
         time++;
-        targetSize = targetSize-time;
+        target_size = target_size-time;
     }
     return (time);
 }

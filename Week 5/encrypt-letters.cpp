@@ -3,41 +3,40 @@
 
 using namespace std;
 
-char encryptLetter(char letter, int shift);
+char encryptLower(char letter, int shift_value);
 
 int main(){
     char letter;
-    int shift;
+    int shift_value;
 
     //ask user for input
     cout << "Enter the lowercase character to encrypt:" << endl;
     cin >> letter;
 
     cout << "Enter the encryption value:" << endl;
-    cin >> shift;
+    cin >> shift_value;
 
-    cout << "Letter " << letter << " was encrypted to " << encryptLetter(letter,shift) << "." << endl;   
+    //tell user the result of the problem
+    cout << "Letter " << letter << " was encrypted to " << encryptLower(letter,shift_value) << "." << endl;   
 }
 
-char encryptLetter(char letter, int shift){
-    char eLetter;
-
-    if (letter >= 97 && letter <= 122) {
-        return (letter);
-    } else {
-        while (shift != 0) {
-            if (shift < 0) {
-                eLetter = letter--;
-                shift++;
-            } else {
-                eLetter = letter++;
-                shift--;
-            }
+char encryptLower(char letter, int shift_value){
+    while (shift_value != 0) {
+        if (letter == 97 && shift_value < 0) {
+            letter = 122;
+            shift_value ++;
+        } else if (letter == 122 && shift_value > 0) {
+            letter = 97;
+            shift_value --;
+        } else if (letter >= 97 && letter <= 122 && shift_value > 0) {
+            letter++;
+            shift_value--;
+        } else if (letter >= 97 && letter <=122 && shift_value < 0) {
+            letter--;
+            shift_value++;
+        } else {
+            return (letter);
         }
-        
     }
-    cout << shift << endl;
-    cout << eLetter << endl;
-      eLetter = letter+shift;
-    return (eLetter);
+    return (letter);
 }

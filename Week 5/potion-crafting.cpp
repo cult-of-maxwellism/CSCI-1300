@@ -1,42 +1,88 @@
-/*Your task is to write a program that asks the user which potion they would like to prioritize—Health or Magic. 
-If the user enters an invalid number for the type of potion, the program should ask them to re-enter like this: Invalid input. 
-Please select 1 or 2. The program will then prompt the user to input the number of each ingredient they currently have (Tealeaves, 
-Sunflowers, Toadstools, and Pine Needles). Based on the available ingredients, calculate how many potions of the priority type can be crafted. 
-Any leftover ingredients should be used to craft as many of the other types of potion as possible. Finally, the program should output how 
-many of the priority potions can be crafted and how many of the other potions can be made with the remaining ingredients.
+#include<iostream>
 
-The ingredient requirements for each type of potion are as follows:
-Ingredients 	Amount for Health Potion 	Amount for Magic Potion
-Tealeaves 	        6 	                    2
-Sunflowers 	        1 	                    3
-Toadstools      	5 	                    10
-Pine Needles 	    2 	                    1*/
+using namespace std;
 
-/*
+int main () {
+    int userin, magic, health, tea, sun, toad, pine;
 
-Select a potion crafting priority:
+    cout << "Select a potion crafting priority:" << endl;
+    cout << "1. Health Potion" << endl;
+    cout << "2. Magic Potion" << endl;
+    cin >> userin;
 
-1. Health Potion
+    while (userin != 1 && userin != 2) {
+        //cout << userin << endl;
+        cout << "Invalid input. Please select 1 or 2." << endl;
+        cin >> userin;
+    }
 
-2. Magic Potion
+    cout << "How many Tealeaves do you have?" << endl;
+    cin >> tea;
+    while (tea < 0) {
+        cout << "Invalid input. Please enter a non-negative integer." << endl;
+        cout << "How many Tealeaves do you have?" << endl;
+        cin >> tea;
+    }
 
-2
+    cout << "How many Sunflowers do you have?" << endl;
+    cin >> sun;
+    while (sun < 0) {
+        cout << "Invalid input. Please enter a non-negative integer." << endl;
+        cout << "How many Sunflowers do you have?" << endl;
+        cin >> sun;
+    }
 
-How many Tealeaves do you have?
+    cout << "How many Toadstools do you have?" << endl;
+    cin >> toad;
+    while (toad < 0) {
+        cout << "Invalid input. Please enter a non-negative integer." << endl;
+        cout << "How many Toadstools do you have?" << endl;
+        cin >> toad;
+    }
 
-30
+    cout << "How many Pine Needles do you have?" << endl;
+    cin >> pine;
+    while (pine < 0) {
+        cout << "Invalid input. Please enter a non-negative integer." << endl;
+        cout << "How many Pine Needles do you have?" << endl;
+        cin >> pine;
+    }
 
-How many Sunflowers do you have?
+    magic = 0;
+    health = 0;
+    if (userin == 1) {
+        while (tea >= 6 && sun >= 1 && toad >= 5 && pine >=2){
+            tea = tea-6;
+            sun = sun-1;
+            toad = toad-5;
+            pine = pine-2;
+            health ++;
+        }
+        while (tea >= 2 && sun >=3 && toad >= 10 && pine >= 1) {
+            tea = tea-2;
+            sun = sun-3;
+            toad = toad-10;
+            pine = pine-1;
+            magic ++;
+        }
+        cout << "You can make " << health << " Health potion(s) and " << magic << " Magic potion(s)." << endl;
+    } else {
+        while (tea >= 2 && sun >= 3 && toad >= 10 && pine >= 1) {
+            tea = tea-2;
+            sun = sun-3;
+            toad = toad-10;
+            pine = pine-1;
+            magic ++;
+        }
+        while (tea >= 6 && sun >= 1 && toad >= 5 && pine >= 2){
+            tea = tea-6;
+            sun = sun-1;
+            toad = toad-5;
+            pine = pine-2;
+            health ++;
+        }
+        cout << "You can make " << magic << " Magic potion(s) and " << health << " Health potion(s)." << endl;
+    }
 
-40
-
-How many Toadstools do you have?
-
-12
-
-How many Pine Needles do you have?
-
-22
-
-You can make 1 Magic potion(s) and 0 Health potion(s).
-*/
+    return 0;
+}
