@@ -1,24 +1,14 @@
 #include<iostream>
 //#include<iomanip>
-
 using namespace std;
-
 bool isValidBase(char base);
 bool isValidStrand(string strand);
-int bestStrandMatch(string input_strand, string target_strand);
 double strandSimilarity(string strand1, string strand2);
-
-// This is a required function to successfully test Double functions in C++:
-/*
-  - doublesEqual will test if two doubles are equal to each
-  - other within two decimal places.
-*/
-bool doublesEqual(double a, double b, const double epsilon = 1e-2)
-{
-    double c = a - b;
-    return c < epsilon && -c < epsilon;
-}
-
+int bestStrandMatch(string input_strand, string target_strand);
+void identifyMutations(string input_strand, string target_strand);
+void transcribeDNAtoRNA(string strand);
+void reverseComplement(string strand);
+void getCodingFrames(string strand);
 int main () {
     int menuChoice;
     string strand1, strand2;
@@ -31,7 +21,7 @@ int main () {
     cin >> menuChoice;
 
     switch(menuChoice) {
-        case 1:
+        case 1: //Similarity of sequences of identical length
             cout << "Enter the first DNA sequence:" << endl;
             cin >> strand1;
             while (!isValidStrand(strand1)){
@@ -56,8 +46,8 @@ int main () {
 
         break;
 
-        case 2:
-        cout << "Enter the first DNA sequence:" << endl;
+        case 2: //Calculate best similarty between two sequences
+            cout << "Enter the first DNA sequence:" << endl;
             cin >> strand1;
             while (!isValidStrand(strand1)){
                 cout << "Invalid input. Please enter a valid sequence." << endl;
@@ -80,15 +70,64 @@ int main () {
 
         break;
         
-        default:
+        case 3: //Identify mutations
+            cout << "Enter the first DNA sequence:" << endl;
+            cin >> strand1;
+            while (!isValidStrand(strand1)){
+                cout << "Invalid input. Please enter a valid sequence." << endl;
+                cout << "Enter the first DNA sequence:" << endl;
+                cin >> strand1;
+            }
+
+            cout << "Enter the seccond DNA sequence:" << endl;
+            cin >> strand2;
+            while (!isValidStrand(strand2)){
+                cout << "Invalid input. Please enter a valid sequence." << endl;
+                cout << "Enter the seccond DNA sequence:" << endl;
+                cin >> strand2;
+            }
+
+            identifyMutations(strand1,strand2);
+        break;
+
+        case 4: //Transcribe DNA to RNA
+            cout << "Enter the DNA sequence to be transcribed:" << endl;
+            cin >> strand1;
+            while (!isValidStrand(strand1)){
+                cout << "Invalid input. Please enter a valid sequence." << endl;
+                cout << "Enter the DNA sequence to be transcribed:" << endl;
+                cin >> strand1;
+            }
+            cout << "The transcribed DNA is: ";
+            transcribeDNAtoRNA(strand1);
+            cout << endl;
+        break;
+
+        case 5: //Check for reverse complement of DNA sequence
+        cout << "Enter the DNA sequence:" << endl;
+            cin >> strand1;
+            while (!isValidStrand(strand1)){
+                cout << "Invalid input. Please enter a valid sequence." << endl;
+                cout << "Enter the DNA sequence:" << endl;
+                cin >> strand1;
+            }
+            cout << "The reverse complement is: ";
+            reverseComplement(strand1);
+            cout << endl;
+        break;
+
+        case 6: //check for reading frames of DNA
+        cout << "functionality in progress" << endl;
+
+        case 7: //exit
+        cout << "Exiting program." << endl;
+        break;
+
+        default: //error
         cout << "Invalid input. Please select a valid option." << endl;
     }
     } while (menuChoice != 7);
-
-    cout << "Exiting program.";
-
     return 0;
-
 }
 /*this function ensures every letter is valid*/
 bool isValidBase(char base) {
@@ -102,20 +141,17 @@ bool isValidBase(char base) {
 bool isValidStrand(string strand) {
     int length = strand.length();
     bool results = true;
-
     for (int i=0; i < length; i++) {
         if (!isValidBase (strand[i])){
             results = false;
         }
     }
-
     return results;
 }
 /*The function ompares two strands position by position, counting the number of positions where the bases are identical.*/
 double strandSimilarity(string strand1, string strand2){
     double simlScore;
     int length = strand1.length();
-
     if (strand1.length() != strand2.length()) {
         return 0;
     } else {
@@ -125,36 +161,33 @@ double strandSimilarity(string strand1, string strand2){
             }
         }
     }
-
     return (simlScore/strand1.length());
 }
 /*this function returns the location of the best value of scores between two strands*/
 int bestStrandMatch(string input_strand, string target_strand) {
     double bestScore = 0.0;
-    //everything after startingResult (which is misnamed, it's the result you start at) exists because I was getting errors just 
-    //using the .length() operators in the if statements.
+    //everything after startingResult (which is misnamed, it's which character of i_s you align t_s[0] with) exists because I was getting
+    //errors just using the .length() operators in the if statements.
     int startingResult = 0, checkLength = target_strand.length(), overallLength = input_strand.length() - target_strand.length();
 
-
     string shortened;
-    //The theory here (took a while to work out): AS LONG AS the input strand is larger than or equal to the target strand...
+    //The theory here: AS LONG AS the input strand is larger than or equal to the target strand...
     if (input_strand.length() >= target_strand.length()){
         //create a value "i" - which starts at 0, and is the "start digit" for each run
         for (int i = 0; i <= overallLength; i++) {
             //tell me what the shortened input strand is, based off of i and the length of the target strand
             shortened = input_strand.substr(i,(checkLength));
 
+            //and give me strandSimilarity based off each of these.
             if (strandSimilarity(shortened, target_strand) > bestScore) {
                 bestScore = strandSimilarity(shortened, target_strand);
                 startingResult = i;
             }
         }
         cout << "Best similarity score: " << bestScore << endl;
-
         return startingResult;
     } else {
         cout << "Best similarity score: " << bestScore << endl;
-
         return -1;
     }
     return 0;
