@@ -9,6 +9,7 @@ double strandSimilarity(string strand1, string strand2){
     int length = strand1.length();
 
     if (strand1.length() != strand2.length()) {
+        cout << "Length Incompatible!" << endl;
         return 0;
     } else {
         for (int i=0; i < length; i++) {
@@ -24,27 +25,31 @@ double strandSimilarity(string strand1, string strand2){
 
 /*this function returns the best value of scores betweeb */
 int bestStrandMatch(string input_strand, string target_strand) {
-    double result1 = 0.0, bestScore = 0.0;
-    int nerdstuff = input_strand.length() - target_strand.length();
-    int startingResult;
-    string shortened; //= target_strand.substr(0,input_strand.length());
+    double bestScore = 0.0;
+    int startingResult = 0, checkLength = target_strand.length(), overallLength = input_strand.length() - target_strand.length();
+
+
+    string shortened;
 
     if (input_strand.length()>= target_strand.length()){
-        for (int i = 0; i < nerdstuff; i++) {
-            shortened = input_strand.substr(0,(target_strand.length()+i));
+        for (int i = 0; i < overallLength; i++) {
 
-            result1 = strandSimilarity(input_strand, shortened);
-            
-            if (result1 > bestScore) {
-                bestScore = result1;
+            shortened = input_strand.substr(i,(checkLength));
+
+            if (strandSimilarity(shortened, target_strand) > bestScore) {
+                bestScore = strandSimilarity(shortened, target_strand);
                 startingResult = i;
             }
         }
+        cout << "Best similarity score: " << bestScore << endl;
+
         return startingResult;
     } else {
-        cout << "“Best similarity score: 0.0”." << endl;
+        cout << "Best similarity score: " << bestScore << endl;
+
         return -1;
     }
+    return 0;
 }
 
 int main () {
@@ -55,10 +60,12 @@ int main () {
     cout << "enter strand2" << endl;
     cin >> strand2;
 
-    int bestMatch = bestStrandMatch (strand1, strand2);
+    cout << bestStrandMatch(strand1, strand2) << endl;
+
+    /*int bestMatch = bestStrandMatch (strand1, strand2);
     double similar = strandSimilarity (strand1, strand2.substr(bestMatch,strand1.length()));
     cout << "best strand similarity score " << similar << endl;
-    cout << "best starting for strand " << bestMatch << endl;
+    cout << "best starting for strand " << bestMatch << endl;*/
 
     cout << "Exiting program.";
 
