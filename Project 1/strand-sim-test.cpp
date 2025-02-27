@@ -5,11 +5,9 @@ using namespace std;
 /*The function strandSimilarity() compares two strands position by position, counting the number of positions
 where the bases are identical. This provides a direct measure of how similar the two sequences are.*/
 double strandSimilarity(string strand1, string strand2){
-    double simlScore;
+    double simlScore=0.0;
     int length = strand1.length();
-
     if (strand1.length() != strand2.length()) {
-        cout << "Length Incompatible!" << endl;
         return 0;
     } else {
         for (int i=0; i < length; i++) {
@@ -18,12 +16,11 @@ double strandSimilarity(string strand1, string strand2){
             }
         }
     }
-
     return (simlScore/strand1.length());
 }
 
 
-/*this function returns the best value of scores betweeb */
+/*this function is supposed to return the best value of scores between two strands, regardless of length*/
 int bestStrandMatch(string input_strand, string target_strand) {
     double bestScore = 0.0;
     int startingResult = 0, checkLength = target_strand.length(), overallLength = input_strand.length() - target_strand.length();
@@ -32,7 +29,7 @@ int bestStrandMatch(string input_strand, string target_strand) {
     string shortened;
 
     if (input_strand.length()>= target_strand.length()){
-        for (int i = 0; i < overallLength; i++) {
+        for (int i = 0; i <= overallLength; i++) {
 
             shortened = input_strand.substr(i,(checkLength));
 
@@ -45,7 +42,7 @@ int bestStrandMatch(string input_strand, string target_strand) {
 
         return startingResult;
     } else {
-        cout << "Best similarity score: " << bestScore << endl;
+        cout << "Best similarity score: 0.0" << endl;
 
         return -1;
     }

@@ -104,7 +104,7 @@ int main () {
         break;
 
         case 5: //Check for reverse complement of DNA sequence
-        cout << "Enter the DNA sequence:" << endl;
+            cout << "Enter the DNA sequence:" << endl;
             cin >> strand1;
             while (!isValidStrand(strand1)){
                 cout << "Invalid input. Please enter a valid sequence." << endl;
@@ -117,7 +117,17 @@ int main () {
         break;
 
         case 6: //check for reading frames of DNA
-        cout << "functionality in progress" << endl;
+            cout << "Enter the DNA sequence:" << endl;
+            cin >> strand1;
+            while (!isValidStrand(strand1)){
+                cout << "Invalid input. Please enter a valid sequence." << endl;
+                cout << "Enter the DNA sequence:" << endl;
+                cin >> strand1;
+            }
+            cout << "The extracted reading frames are: ";
+            getCodingFrames(strand1);
+            cout << endl;
+        break;
 
         case 7: //exit
         cout << "Exiting program." << endl;
@@ -141,6 +151,9 @@ bool isValidBase(char base) {
 bool isValidStrand(string strand) {
     int length = strand.length();
     bool results = true;
+    if (length<=0) {
+        results = false;
+    }
     for (int i=0; i < length; i++) {
         if (!isValidBase (strand[i])){
             results = false;
@@ -150,7 +163,7 @@ bool isValidStrand(string strand) {
 }
 /*The function ompares two strands position by position, counting the number of positions where the bases are identical.*/
 double strandSimilarity(string strand1, string strand2){
-    double simlScore;
+    double simlScore=0.0;
     int length = strand1.length();
     if (strand1.length() != strand2.length()) {
         return 0;
@@ -166,28 +179,26 @@ double strandSimilarity(string strand1, string strand2){
 /*this function returns the location of the best value of scores between two strands*/
 int bestStrandMatch(string input_strand, string target_strand) {
     double bestScore = 0.0;
-    //everything after startingResult (which is misnamed, it's which character of i_s you align t_s[0] with) exists because I was getting
-    //errors just using the .length() operators in the if statements.
     int startingResult = 0, checkLength = target_strand.length(), overallLength = input_strand.length() - target_strand.length();
 
     string shortened;
-    //The theory here: AS LONG AS the input strand is larger than or equal to the target strand...
-    if (input_strand.length() >= target_strand.length()){
-        //create a value "i" - which starts at 0, and is the "start digit" for each run
+
+    if (input_strand.length()>= target_strand.length()){
         for (int i = 0; i <= overallLength; i++) {
-            //tell me what the shortened input strand is, based off of i and the length of the target strand
+
             shortened = input_strand.substr(i,(checkLength));
 
-            //and give me strandSimilarity based off each of these.
             if (strandSimilarity(shortened, target_strand) > bestScore) {
                 bestScore = strandSimilarity(shortened, target_strand);
                 startingResult = i;
             }
         }
         cout << "Best similarity score: " << bestScore << endl;
+
         return startingResult;
     } else {
-        cout << "Best similarity score: " << bestScore << endl;
+        cout << "Best similarity score: 0.0" << endl;
+
         return -1;
     }
     return 0;
@@ -261,10 +272,10 @@ void transcribeDNAtoRNA(string strand) {
 void reverseComplement(string strand) {
     int length = strand.length();
 
-    string placeholder;
+    string placeholder="";
 
     //not that pretty but it's readable & gets the job done.
-    for (int i = length; i >= 0; i--) {
+    for (int i = length-1; i >= 0; i--) {
         placeholder+=strand[i];
     }
 
@@ -282,4 +293,35 @@ void reverseComplement(string strand) {
         }
     }
     cout << strand << endl;
+}
+/*this one gets the coding frames*/
+void getCodingFrames(string strand) {
+    int length=strand.length();
+    string toPrint;
+    bool printing = false, saidStuff = false;
+
+    //Check string for sequence ATG, if A is followed by T and G, print starting at A until T-A-A, T-A-G, or T-G-A.
+    for (int i = 0; i <= length; i++) {
+        //This checks if i is at the beginning of ATG, and if it is, sets printing to true.
+        if (strand.substr(i,3) == "ATG") {
+            printing = true;
+            saidStuff = true;
+            //in theory, this checks to ensure that it's not part of the "read" characters: strand.substr(i-4,3) != "ATG" && 
+            //this part checks if i is at the end of TAA, TAG, or TGA
+        }
+        if (i>6 && (strand.substr((i-3),3) == "TAA" || strand.substr((i-3),3) == "TAG" || strand.substr((i-3),3) == "TGA")) {
+            cout << toPrint << endl;
+            toPrint = "";
+            printing = false;
+        }
+        //If printing is true, append a character to the print funct 
+        if (printing == true) {
+            toPrint += strand[i];
+        }
+    }
+    cout << toPrint;
+
+    if (saidStuff == false) {
+        cout << "No reading frames found." << endl;
+    }
 }

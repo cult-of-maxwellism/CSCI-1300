@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/archmagos_cawl/Documents/CSCI 1400/CSCI-1300",
-      "program": "/home/archmagos_cawl/Documents/CSCI 1400/CSCI-1300/build/Debug/outDebug",
+      "cwd": "/home/archmagosgreel/Documents/CSCI-1300/CSCI-1300-1/Project 1",
+      "program": "/home/archmagosgreel/Documents/CSCI-1300/CSCI-1300-1/Project 1/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

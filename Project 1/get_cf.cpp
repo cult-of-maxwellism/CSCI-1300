@@ -9,31 +9,24 @@ void getCodingFrames(string strand) {
 
     //Check string for sequence ATG, if A is followed by T and G, print starting at A until T-A-A, T-A-G, or T-G-A.
     for (int i = 0; i <= length; i++) {
-        int check2 = i+2, check1 = i+1, checkN1 = i-1, checkN2 = i-2; // checkN3 = i-3;
-
-        /*Function: getCodingFrames(string) 	void getCodingFrames(string strand)
-          Purpose: 	The function will print out complete reading frames.
-          Parameters: 	string strand - The DNA strand from which to extract reading frames.
-          Return Value: 	N/A
-          Error handling/ Boundary condition: 	- If no reading frames are found, the function should print “No reading frames found.”
-                                                - You may assume that the input DNA strand is a valid DNA sequence.
-                                                - **Note: **There could be multiple ORF within a single DNA strand.*/
-        if (strand[i]=='A' && strand[check1]=='T' && strand[check2]=='G') {
+        //This checks if i is at the beginning of ATG, and if it is, sets printing to true.
+        if (strand.substr(i,3) == "ATG") {
             printing = true;
             saidStuff = true;
+            //in theory, this checks to ensure that it's not part of the "read" characters: strand.substr(i-4,3) != "ATG" && 
+            //this part checks if i is at the end of TAA, TAG, or TGA
         }
-        if (printing == true) {
-            toPrint += strand[i];
-        }
-        /*
-        cout << strand[i] << strand[i+1] << strand[i+2];
-        //checkN3 >= 0 && (strand[checkN3] != 'G' && 
-        if (strand[checkN2] == 'T' && (strand[checkN1] == 'A' || strand[checkN1] == 'G') && (strand[i]=='A' || strand[i]=='G')) {
+        if ((toPrint.length()%3 == 0) && i>6 && (strand.substr((i-3),3) == "TAA" || strand.substr((i-3),3) == "TAG" || strand.substr((i-3),3) == "TGA")) {
             cout << toPrint << endl;
             toPrint = "";
             printing = false;
-        }*/
+        }
+        //If printing is true, append a character to the print funct 
+        if (printing == true) {
+            toPrint += strand[i];
+        }
     }
+    cout << toPrint;
 
     if (saidStuff == false) {
         cout << "No reading frames found." << endl;
@@ -46,9 +39,7 @@ int main () {
     cout << "enter strand1" << endl;
     cin >> strand1;
 
-    //getCodingFrames(strand1);
-
-    cout << strand1[1] << endl;
+    getCodingFrames(strand1);
 
     cout << "Exiting program.";
 

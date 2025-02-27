@@ -5,10 +5,10 @@ using namespace std;
 void reverseComplement(string strand) {
     int length = strand.length();
 
-    string placeholder;
+    string placeholder="";
 
     //not that pretty but it's readable & gets the job done.
-    for (int i = length; i >= 0; i--) {
+    for (int i = length-1; i >= 0; i--) {
         placeholder+=strand[i];
     }
 
