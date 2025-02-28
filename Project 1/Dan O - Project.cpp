@@ -1,5 +1,4 @@
 #include<iostream>
-//#include<iomanip>
 using namespace std;
 bool isValidBase(char base);
 bool isValidStrand(string strand);
@@ -16,7 +15,7 @@ int main () {
     do {
     cout << "--- DNA Analysis Menu ---" << endl << "1. Calculate the similarity between two sequences of the same length" << endl
     << "2. Calculate the best similarity between two sequences of either equal or unequal length" << endl << "3. Identify mutations" << endl <<
-    "4. Transcribe DNA to RNA" << endl << "5. Find the reverse complement of a DNA sequence" << endl << "6. Extract reading frames" << endl << "7. Exit"
+    "4. Transcribe DNA to RNA" << endl << "5. Find the reverse complement of a DNA sequence" << endl << "6. Extract coding frames" << endl << "7. Exit"
     << endl << "Please enter your choice (1 - 7): " << endl;
     cin >> menuChoice;
 
@@ -30,16 +29,16 @@ int main () {
                 cin >> strand1;
             }
 
-            cout << "Enter the seccond DNA sequence:" << endl;
+            cout << "Enter the second DNA sequence:" << endl;
             cin >> strand2;
             while (!isValidStrand(strand2)){
                 cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the seccond DNA sequence:" << endl;
+                cout << "Enter the second DNA sequence:" << endl;
                 cin >> strand2;
             }
             
             if ((strandSimilarity(strand1, strand2)) == 0) {
-                cout <<" Error: Input strands must be of the same length." << endl;
+                cout << "Error: Input strands must be of the same length." << endl;
             } else {
                 cout << "Similarity score: " << strandSimilarity(strand1, strand2) << endl;
             }
@@ -55,19 +54,14 @@ int main () {
                 cin >> strand1;
             }
 
-            cout << "Enter the seccond DNA sequence:" << endl;
+            cout << "Enter the second DNA sequence:" << endl;
             cin >> strand2;
             while (!isValidStrand(strand2)){
                 cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the seccond DNA sequence:" << endl;
+                cout << "Enter the second DNA sequence:" << endl;
                 cin >> strand2;
             }
-            
-            cout << "Best similarity score: " <<
-            strandSimilarity(strand1, strand2.substr(bestStrandMatch(strand1, strand2),strand1.length()))
-            << endl;
-            cout << "Best alignment index: " << bestStrandMatch(strand1,strand2) << endl;
-
+            bestStrandMatch(strand1,strand2);
         break;
         
         case 3: //Identify mutations
@@ -79,11 +73,11 @@ int main () {
                 cin >> strand1;
             }
 
-            cout << "Enter the seccond DNA sequence:" << endl;
+            cout << "Enter the second DNA sequence:" << endl;
             cin >> strand2;
             while (!isValidStrand(strand2)){
                 cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the seccond DNA sequence:" << endl;
+                cout << "Enter the second DNA sequence:" << endl;
                 cin >> strand2;
             }
 
@@ -100,7 +94,6 @@ int main () {
             }
             cout << "The transcribed DNA is: ";
             transcribeDNAtoRNA(strand1);
-            cout << endl;
         break;
 
         case 5: //Check for reverse complement of DNA sequence
@@ -113,7 +106,6 @@ int main () {
             }
             cout << "The reverse complement is: ";
             reverseComplement(strand1);
-            cout << endl;
         break;
 
         case 6: //check for reading frames of DNA
@@ -124,9 +116,8 @@ int main () {
                 cout << "Enter the DNA sequence:" << endl;
                 cin >> strand1;
             }
-            cout << "The extracted reading frames are: ";
+            cout << "The extracted reading frames are: " << endl;
             getCodingFrames(strand1);
-            cout << endl;
         break;
 
         case 7: //exit
@@ -185,7 +176,6 @@ int bestStrandMatch(string input_strand, string target_strand) {
 
     if (input_strand.length()>= target_strand.length()){
         for (int i = 0; i <= overallLength; i++) {
-
             shortened = input_strand.substr(i,(checkLength));
 
             if (strandSimilarity(shortened, target_strand) > bestScore) {
@@ -194,11 +184,9 @@ int bestStrandMatch(string input_strand, string target_strand) {
             }
         }
         cout << "Best similarity score: " << bestScore << endl;
-
         return startingResult;
     } else {
         cout << "Best similarity score: 0.0" << endl;
-
         return -1;
     }
     return 0;
@@ -297,31 +285,23 @@ void reverseComplement(string strand) {
 /*this one gets the coding frames*/
 void getCodingFrames(string strand) {
     int length=strand.length();
-    string toPrint;
-    bool printing = false, saidStuff = false;
+    bool readingFrames=false;
+    //cout << "strand length reflects as " << length << endl;
 
-    //Check string for sequence ATG, if A is followed by T and G, print starting at A until T-A-A, T-A-G, or T-G-A.
-    for (int i = 0; i <= length; i++) {
-        //This checks if i is at the beginning of ATG, and if it is, sets printing to true.
+    for (int i = 0; i < (length-2); i++) {
         if (strand.substr(i,3) == "ATG") {
-            printing = true;
-            saidStuff = true;
-            //in theory, this checks to ensure that it's not part of the "read" characters: strand.substr(i-4,3) != "ATG" && 
-            //this part checks if i is at the end of TAA, TAG, or TGA
-        }
-        if (i>6 && (strand.substr((i-3),3) == "TAA" || strand.substr((i-3),3) == "TAG" || strand.substr((i-3),3) == "TGA")) {
-            cout << toPrint << endl;
-            toPrint = "";
-            printing = false;
-        }
-        //If printing is true, append a character to the print funct 
-        if (printing == true) {
-            toPrint += strand[i];
+            for (int j = i+3; j < (length-2); j+=3) {
+                if (strand.substr(j,3) == "TAA" || strand.substr(j,3) == "TAG" || strand.substr(j,3) == "TGA") {
+                    cout << strand.substr(i,j-i+3) << endl;
+                    i=j+2;
+                    readingFrames=true;
+                    break;
+                }
+            }
         }
     }
-    cout << toPrint;
 
-    if (saidStuff == false) {
+    if (readingFrames == false) {
         cout << "No reading frames found." << endl;
     }
 }

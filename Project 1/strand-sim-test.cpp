@@ -8,7 +8,7 @@ double strandSimilarity(string strand1, string strand2){
     double simlScore=0.0;
     int length = strand1.length();
     if (strand1.length() != strand2.length()) {
-        return 0;
+        return 0.0;
     } else {
         for (int i=0; i < length; i++) {
             if (strand1[i]==strand2[i]){
@@ -25,11 +25,10 @@ int bestStrandMatch(string input_strand, string target_strand) {
     double bestScore = 0.0;
     int startingResult = 0, checkLength = target_strand.length(), overallLength = input_strand.length() - target_strand.length();
 
-
     string shortened;
 
-    if (input_strand.length()>= target_strand.length()){
-        for (int i = 0; i <= overallLength; i++) {
+    if (input_strand.length() >= target_strand.length()){
+            for (int i = 0; i <= overallLength; i++) {
 
             shortened = input_strand.substr(i,(checkLength));
 
