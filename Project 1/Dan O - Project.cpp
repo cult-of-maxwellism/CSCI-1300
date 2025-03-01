@@ -1,5 +1,8 @@
 #include<iostream>
+#include <string>
+
 using namespace std;
+
 bool isValidBase(char base);
 bool isValidStrand(string strand);
 double strandSimilarity(string strand1, string strand2);
@@ -8,6 +11,8 @@ void identifyMutations(string input_strand, string target_strand);
 void transcribeDNAtoRNA(string strand);
 void reverseComplement(string strand);
 void getCodingFrames(string strand);
+string input_function(string strand, int type);
+
 int main () {
     int menuChoice;
     string strand1, strand2;
@@ -23,19 +28,11 @@ int main () {
         case 1: //Similarity of sequences of identical length
             cout << "Enter the first DNA sequence:" << endl;
             cin >> strand1;
-            while (!isValidStrand(strand1)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the first DNA sequence:" << endl;
-                cin >> strand1;
-            }
+            strand1 = input_function(strand1, 1);
 
             cout << "Enter the second DNA sequence:" << endl;
             cin >> strand2;
-            while (!isValidStrand(strand2)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the second DNA sequence:" << endl;
-                cin >> strand2;
-            }
+            strand2 = input_function(strand2, 2);
             
             if ((strandSimilarity(strand1, strand2)) == 0) {
                 cout << "Error: Input strands must be of the same length." << endl;
@@ -48,50 +45,29 @@ int main () {
         case 2: //Calculate best similarty between two sequences
             cout << "Enter the first DNA sequence:" << endl;
             cin >> strand1;
-            while (!isValidStrand(strand1)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the first DNA sequence:" << endl;
-                cin >> strand1;
-            }
+            strand1 = input_function(strand1, 1);
 
             cout << "Enter the second DNA sequence:" << endl;
             cin >> strand2;
-            while (!isValidStrand(strand2)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the second DNA sequence:" << endl;
-                cin >> strand2;
-            }
+            strand2 = input_function(strand2, 2);
             bestStrandMatch(strand1,strand2);
         break;
         
         case 3: //Identify mutations
             cout << "Enter the first DNA sequence:" << endl;
             cin >> strand1;
-            while (!isValidStrand(strand1)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the first DNA sequence:" << endl;
-                cin >> strand1;
-            }
+            strand1 = input_function(strand1, 1);
 
             cout << "Enter the second DNA sequence:" << endl;
             cin >> strand2;
-            while (!isValidStrand(strand2)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the second DNA sequence:" << endl;
-                cin >> strand2;
-            }
-
+            strand2 = input_function(strand2, 2);
             identifyMutations(strand1,strand2);
         break;
 
         case 4: //Transcribe DNA to RNA
             cout << "Enter the DNA sequence to be transcribed:" << endl;
             cin >> strand1;
-            while (!isValidStrand(strand1)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the DNA sequence to be transcribed:" << endl;
-                cin >> strand1;
-            }
+            strand1 = input_function(strand1, 3);
             cout << "The transcribed DNA is: ";
             transcribeDNAtoRNA(strand1);
         break;
@@ -99,11 +75,7 @@ int main () {
         case 5: //Check for reverse complement of DNA sequence
             cout << "Enter the DNA sequence:" << endl;
             cin >> strand1;
-            while (!isValidStrand(strand1)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the DNA sequence:" << endl;
-                cin >> strand1;
-            }
+            strand1 = input_function(strand1, 4);
             cout << "The reverse complement is: ";
             reverseComplement(strand1);
         break;
@@ -111,11 +83,7 @@ int main () {
         case 6: //check for reading frames of DNA
             cout << "Enter the DNA sequence:" << endl;
             cin >> strand1;
-            while (!isValidStrand(strand1)){
-                cout << "Invalid input. Please enter a valid sequence." << endl;
-                cout << "Enter the DNA sequence:" << endl;
-                cin >> strand1;
-            }
+            strand1 = input_function(strand1, 4);
             cout << "The extracted reading frames are: " << endl;
             getCodingFrames(strand1);
         break;
@@ -304,4 +272,24 @@ void getCodingFrames(string strand) {
     if (readingFrames == false) {
         cout << "No reading frames found." << endl;
     }
+}
+/*this is just checking input*/
+string input_function(string strand, int type) {
+    while (!isValidStrand(strand)){
+        cout << "Invalid input. Please enter a valid sequence." << endl;
+
+        if (type == 1) {
+            cout << "Enter the first DNA sequence:" << endl;
+        } else if (type == 2) {
+            cout << "Enter the second DNA sequence:" << endl;
+        } else if (type == 3) {
+            cout << "Enter the DNA sequence to be transcribed:" << endl;
+        } else if (type == 4) {
+            cout << "Enter the DNA sequence:" << endl;
+        }
+
+        cin >> strand;
+    }
+
+    return strand;
 }
