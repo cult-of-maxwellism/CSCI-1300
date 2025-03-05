@@ -2,12 +2,15 @@
 
 using namespace std;
 
-void foo (string title, int arr[], const int COUNT) {
-    cout << title << ":[";
-}
 
-int main()
-{
-    bool myArray[7] = {true,false,false,false,true};
-    cout <<  myArray[6] << endl;    
+
+int main() {
+  string str = "This,is,a,string";
+  stringstream sstr(str);
+  string word[4];
+  int i = 0;
+  while (getline(sstr, word[i], 'i')) {
+    i++;
+  }
+  cout << word[2] << endl;
 }
