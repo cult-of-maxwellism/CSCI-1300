@@ -8,7 +8,7 @@ int main()
     string animals[N] = {"lion", "cat", "bear", "dog", "elephant", "fox"};
     for (int i = 0; i < N; i++) 
     {
-        if (animals.length()[i] == 4)
+        if (animals[i].length() == 4)
         {
             cout << animals[i] << endl;
         }
