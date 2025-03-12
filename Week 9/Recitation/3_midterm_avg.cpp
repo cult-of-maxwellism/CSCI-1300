@@ -48,4 +48,5 @@ bool validateDouble(string input) {
         if (dotCounter != 1) { isDouble = false; } else { isDouble = true; }
     } else { isDouble = false; }
 
-    r
+    return isDouble;
+}
