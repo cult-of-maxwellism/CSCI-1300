@@ -1,0 +1,7 @@
+name|health|mana|status
+Brian|100|50|A
+Jenna|80|100|F
+Steve|60|90|F
+Brian|100|50|A
+Jenna|80|100|F
+Steve|60|90|F

@@ -1,26 +1,52 @@
-#include <iostream>
-#include <fstream>
+#include<iostream>
 
 using namespace std;
 
-struct Book {
-    string title;
-    int pages[2];
+struct Item{
+    string name;
+    double price;
 };
 
-int main() {
-    Book myBook = {"K & R C", {200,400}};
+class CashRegister {
+public:
+   void view() const;
+   void purchase(Item);
+   void displayTotal() const;
+ 
+private:
+   int item_count = 0;
+   Item items[100];
+};
 
-    cout << myBook.title << " is " << myBook.pages[1] << " pages long." << endl;
-    /*
-    ifstream fin("data.txt");
-    string word;
 
-    while (fin >> word) {
-        cout << word << endl;
-    }
+void CashRegister::view() const
+{
+   for (int i = 0; i < item_count; i++)
+   {
+      cout<<items[i].name<<" "<<items[i].price<<endl;
+   }
+}
 
-    fin.close();
-    */
-    return 0;
+void CashRegister::displayTotal() const
+{
+   double total = 0;
+   for(int i = 0; i < item_count; i++){
+      total += items[i].price;
+   }
+   cout<<total<<endl;
+}
+
+void CashRegister::purchase(Item i){
+   items[item_count] = i;
+   item_count++;
+}
+
+int main()
+{
+   CashRegister reg1;
+   Item item = {"cookies", 4.0};
+   reg1.purchase(item);
+   reg1.purchase({"ice cream", 5.40});
+   reg1.displayTotal();
+   return 0;
 }

@@ -1,12 +1,14 @@
 #include"Game.h"
+#include <ostream>
 
 using namespace std;
 
+//game.cpp
+//constructors
 Game::Game () {
     _num_players = 0;
     _num_creatures = 0;
 }
-
 Game::Game (Character players[], Character creatures[], int num_players, int num_creatures) {
     _num_players = num_players;
     _num_creatures = num_creatures;
@@ -20,56 +22,58 @@ int Game::getNumCreatures() { return _num_creatures; ;}
 
 //setters
 void Game::setPlayersList(Character players[], int numPlayers) {
-    cout << "Adding players..." << endl;
-    for (int i = 0; i < 2 && i < numPlayers; i ++) {
-        cout << "Setting at index " << i << endl;
-        _players[i] = players[i];
-        _num_players = i;
+    if (numPlayers > 2) {
+        numPlayers = 2;
+        _num_players = 2;
     }
-    cout << _num_players << " players added." << endl;
+    for (int i = 0; i < numPlayers; i ++) {
+        _players[i] = players[i];
+        _num_players = i+1;
+    }
 }
 void Game::setCreaturesList (Character creatures[], int numCreatures) {
-    cout << "Adding creatures..." << endl;
-    for (int i = 0; i < 2 && i < numCreatures; i ++) {
-        cout << "Setting at index " << i << endl;
-        _creatures[i] = creatures[i];
-        _num_creatures = i;
+    if (numCreatures > 2) {
+        numCreatures = 2;
+        _num_creatures = 2;
     }
-    cout << _num_creatures << " creatures added." << endl;
+    for (int i = 0; i < numCreatures; i ++) {
+        _creatures[i] = creatures[i];
+        _num_creatures = i+1;
+    }
 }
 
 //player get/set
 bool Game::setPlayer(int index, Character new_player) {
     bool value = false;
-    if (index < _num_players) {
+    if (index <= _num_players && index >= 0) {
         _players[index] = new_player;
         value = true;
     }
     return value;
 }
 Character Game::getPlayer(string name) {
-    Character chosen;
-    if (findPlayer(name) != -1) {
-        chosen = _players[findPlayer(name)];
+    Character blank;
+    if (findPlayer(name) >= 0) {
+        return _players[findPlayer(name)];
     }
-    return chosen;
+    return blank;
 }
 
 //creature get/set
 bool Game::setCreature (int index, Character new_creature){
     bool value = false;
-    if (index < _num_creatures) {
+    if (index < _num_creatures && index >= 0) {
         _creatures[index] = new_creature;
         value = true;
     }
     return value;
 }
 Character Game::getCreature(string name) {
-    Character chosen;
-    if (findCreature(name) != -1) {
-        chosen = _creatures[findCreature(name)];
+    Character blank;
+    if (findCreature(name) >= 0) {
+        return _creatures[findCreature(name)];
     }
-    return chosen;
+    return blank;
 }
 
 //finders

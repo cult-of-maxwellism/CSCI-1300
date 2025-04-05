@@ -2,6 +2,7 @@
 
 using namespace std;
 
+//character.h
 class Character {
     private:
     string _name;
@@ -29,5 +30,4 @@ class Character {
     void setMana(int);
     void setIsCreature(bool);
     void printStats();
-
 };
